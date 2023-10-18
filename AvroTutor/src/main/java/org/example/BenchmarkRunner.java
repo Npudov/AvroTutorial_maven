@@ -32,6 +32,9 @@ public class BenchmarkRunner {
     }
 
     private static GenericRecord user1 = new GenericData.Record(schema);
+    private static File file = new File("users.avro");
+    private static DatumWriter<GenericRecord> datumWriter = new GenericDatumWriter<GenericRecord>(schema);
+    private static DataFileWriter<GenericRecord> dataFileWriter = new DataFileWriter<GenericRecord>(datumWriter);
 
     @Param({"100", "1000", "10000"})
     private static int N;
@@ -42,9 +45,9 @@ public class BenchmarkRunner {
 
 
         for (int i=0;i<N;i++) {
-            File file = new File("users.avro");
-            DatumWriter<GenericRecord> datumWriter = new GenericDatumWriter<GenericRecord>(schema);
-            DataFileWriter<GenericRecord> dataFileWriter = new DataFileWriter<GenericRecord>(datumWriter);
+            //File file = new File("users.avro");
+            //DatumWriter<GenericRecord> datumWriter = new GenericDatumWriter<GenericRecord>(schema);
+            //DataFileWriter<GenericRecord> dataFileWriter = new DataFileWriter<GenericRecord>(datumWriter);
             dataFileWriter.create(schema, file);
             dataFileWriter.append(user1);
             dataFileWriter.close();
@@ -53,8 +56,10 @@ public class BenchmarkRunner {
 
     @Setup
     public void setUp() {
-        user1.put("stringField", "abcdef");
-        user1.put("intField", 256);
+        for (int i=0; i<N;i++) {
+            user1.put("stringField", "abcdef");
+            user1.put("intField", 256);
+        }
     }
 
     public static void main(String[] args) throws Exception {
