@@ -45,9 +45,6 @@ public class BenchmarkRunner {
 
 
         for (int i=0;i<N;i++) {
-            //File file = new File("users.avro");
-            //DatumWriter<GenericRecord> datumWriter = new GenericDatumWriter<GenericRecord>(schema);
-            //DataFileWriter<GenericRecord> dataFileWriter = new DataFileWriter<GenericRecord>(datumWriter);
             dataFileWriter.create(schema, file);
             dataFileWriter.append(user1);
             dataFileWriter.close();
