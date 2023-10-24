@@ -31,7 +31,7 @@ public class Main {
 
         File file = new File("users.avro");
 
-        // Serialize user1, user2 and user3 to disk
+        // Serialize user1 to disk
         DatumWriter<User> userDatumWriter = new SpecificDatumWriter<User>(User.class);
         DataFileWriter<User> dataFileWriter = new DataFileWriter<User>(userDatumWriter);
         dataFileWriter.create(user1.getSchema(), file);
