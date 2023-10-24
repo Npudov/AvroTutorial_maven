@@ -54,14 +54,11 @@ public class BenchmarkRunner {
     }
 
 
-    @Param({"100", "1000", "10000"})
+    @Param({"10", "100", "1000"})
     private static int N;
     @Benchmark
     @BenchmarkMode(Mode.AverageTime)
     public static void init() throws Exception {
-        //Schema schema = new Schema.Parser().parse(new File("src/main/avro/user.avsc"));
-
-
         for (int i=0;i<N;i++) {
             dataFileWriter.create(schema, file);
             dataFileWriter.append(user1);
@@ -87,7 +84,6 @@ public class BenchmarkRunner {
     }
 
     public static void main(String[] args) throws Exception {
-        //org.openjdk.jmh.Main.main(args);
         Options opt = new OptionsBuilder()
                 .include(BenchmarkRunner.class.getSimpleName())
                 .forks(1)

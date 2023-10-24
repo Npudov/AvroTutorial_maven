@@ -54,47 +54,5 @@ public class Main {
             user = dataFileReader.next(user);
             System.out.println(user);
         }
-
-
-
-
-        /*Schema schema = new Schema.Parser().parse(new File("AvroTutor/src/main/avro/user.avsc"));
-
-
-
-        GenericData.Array<Integer> numbers = new GenericData.Array<>(3, schema);
-        numbers.add(1);
-        numbers.add(2);
-        numbers.add(3);
-
-        GenericRecord user1 = new GenericData.Record(schema);
-        user1.put("stringField", "abcdef");
-        user1.put("intField", 256);
-        user1.put("listField", Arrays.asList(numbers));
-
-
-        // Serialize user1 and user2 to disk
-        File file = new File("users.avro");
-        DatumWriter<GenericRecord> datumWriter = new GenericDatumWriter<GenericRecord>(schema);
-        DataFileWriter<GenericRecord> dataFileWriter = new DataFileWriter<GenericRecord>(datumWriter);
-        dataFileWriter.create(schema, file);
-        dataFileWriter.append(user1);
-        dataFileWriter.close();
-        String sizeFile = String.valueOf(file.length());
-        try (PrintWriter printWriter = new PrintWriter("result.txt")){
-            printWriter.write(sizeFile);
-        }
-
-        // Deserialize users from disk
-        DatumReader<GenericRecord> datumReader = new GenericDatumReader<GenericRecord>(schema);
-        DataFileReader<GenericRecord> dataFileReader = new DataFileReader<GenericRecord>(file, datumReader);
-        GenericRecord user = null;
-        while (dataFileReader.hasNext()) {
-            // Reuse user object by passing it to next(). This saves us from
-            // allocating and garbage collecting many objects for files with
-            // many items.
-            user = dataFileReader.next(user);
-            System.out.println(user);
-        }*/
     }
 }
