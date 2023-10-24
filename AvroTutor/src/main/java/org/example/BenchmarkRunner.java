@@ -1,11 +1,15 @@
 package org.example;
 
 import org.apache.avro.Schema;
+import org.apache.avro.file.DataFileReader;
 import org.apache.avro.file.DataFileWriter;
 import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericDatumWriter;
 import org.apache.avro.generic.GenericRecord;
+import org.apache.avro.io.DatumReader;
 import org.apache.avro.io.DatumWriter;
+import org.apache.avro.specific.SpecificDatumReader;
+import org.example.avro.User;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.Options;
@@ -38,6 +42,18 @@ public class BenchmarkRunner {
     private static DatumWriter<GenericRecord> datumWriter = new GenericDatumWriter<GenericRecord>(schema);
     private static DataFileWriter<GenericRecord> dataFileWriter = new DataFileWriter<GenericRecord>(datumWriter);
 
+    private static DatumReader<User> userDatumReader = new SpecificDatumReader<>(User.class);
+    private static DataFileReader<User> dataFileReader;
+
+    static {
+        try {
+            dataFileReader = new DataFileReader<User>(file, userDatumReader);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     @Param({"100", "1000", "10000"})
     private static int N;
     @Benchmark
@@ -50,6 +66,14 @@ public class BenchmarkRunner {
             dataFileWriter.create(schema, file);
             dataFileWriter.append(user1);
             dataFileWriter.close();
+
+            User user = null;
+            while (dataFileReader.hasNext()) {
+                // Reuse user object by passing it to next(). This saves us from
+                // allocating and garbage collecting many objects for files with
+                // many items.
+                user = dataFileReader.next(user);
+            }
         }
     }
 
