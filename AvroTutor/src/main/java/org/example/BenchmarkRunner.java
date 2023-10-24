@@ -13,6 +13,7 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 @BenchmarkMode(Mode.AverageTime)
@@ -21,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 @Fork(value = 1, warmups = 2)
 @Warmup(iterations = 3 ,time = 300, timeUnit = TimeUnit.MILLISECONDS)
 public class BenchmarkRunner {
+
     private static Schema schema;
 
     static {
@@ -56,6 +58,7 @@ public class BenchmarkRunner {
         for (int i=0; i<N;i++) {
             user1.put("stringField", "abcdef");
             user1.put("intField", 256);
+            user1.put("listField", Arrays.asList(1, 2, 3));
         }
     }
 

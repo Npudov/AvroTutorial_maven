@@ -1,8 +1,18 @@
-{"namespace": "example.avro",
+{"namespace": "org.example.avro",
   "type": "record",
   "name": "User",
   "fields": [
     {"name": "stringField", "type": "string"},
-    {"name": "intField",  "type": "int"}
+    {"name": "intField",  "type": "int"},
+    {
+      "name": "listField",
+      "type": {
+        "type": "array",
+        "items":  {
+          "name": "element",
+          "type": "int"
+        }
+      }
+    }
   ]
 }
